@@ -1,0 +1,51 @@
+
+type Nft @entity {
+  id: ID!
+  blockNumber: BigInt!
+  transactionHash: Bytes!
+  tokenAddress: Bytes!
+  tokenId: BigInt!
+  tokenURI: String!
+  creator: Bytes!
+  owner: Bytes!
+  # royalties: Array!
+  createdAt: BigInt!
+  collection: Collection!
+  sale: Sale
+  bids: [Bid!]!
+}
+
+type Collection @entity {
+  id: ID!
+  name:String!
+  symbol:String!
+  creator: Bytes!
+  createdAt: BigInt!
+  nfts: [Nft!]! @derivedFrom(field: "collection")
+}
+
+type Sale @entity{
+  id: ID!
+  saleId: BigInt!
+  tokenAddress: Bytes!
+  tokenID: BigInt!
+  price: BigInt!
+  saleType: String!
+  status: Boolean
+  bidStartTime: BigInt
+  bidEndTime: BigInt
+  currentOwner: Bytes!
+}
+
+type Bid @entity{
+  id: ID!
+  bidId: BigInt!
+  saleId: BigInt!
+  sellerAddress: Bytes!
+  buyerAddress: Bytes!
+  price: BigInt!
+  withdrawn: Boolean!
+}
+
+
+

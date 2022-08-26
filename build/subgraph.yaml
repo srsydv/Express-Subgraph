@@ -1,0 +1,50 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: bsc
+    source:
+      address: "0xf02c627B3Ae533D488cb25F072e542ee7CCc1D10"
+      abi: Contract
+      startBlock: 15000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - AdminChanged
+        - NFTBought
+        - BeaconUpgraded
+        - BidExecuted
+        - BidOrderReturn
+        - ERC721Deployed
+        - OwnershipTransferred
+        - TokenMetaReturn
+        - Upgraded
+      abis:
+        - name: Contract
+          file: Contract/abis/Contract.json
+        - name: erc721
+          file: Contract/abis/erc721.json
+      eventHandlers:
+        - event: AdminChanged(address,address)
+          handler: handleAdminChanged
+        - event: NFTBought(address,address,uint256)
+          handler: handleNFTBought
+        - event: BeaconUpgraded(indexed address)
+          handler: handleBeaconUpgraded
+        - event: BidExecuted(uint256)
+          handler: handleBidExecuted
+        - event: BidOrderReturn((uint256,uint256,address,address,uint256,bool))
+          handler: handleBidOrderReturn
+        - event: ERC721Deployed(indexed address,address)
+          handler: handleERC721Deployed
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: TokenMetaReturn((uint256,address,uint256,uint256,bool,bool,bool,uint256,uint256,address),uint256)
+          handler: handleTokenMetaReturn
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+      file: Contract/Contract.wasm
