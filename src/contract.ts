@@ -16,7 +16,7 @@ import {
 import {erc721} from "../generated/Contract/erc721"
 import {  Nft, Collection, Sale, Bid  } from "../generated/schema"
 
-
+//tokenfactory = 0xBB2bCe0d19918aB3CD55de1DE7770688B8ff00F7
 export function handleNFTBought(event: NFTBought): void {
 }
 
@@ -44,9 +44,12 @@ export function handleBidOrderReturn(event: BidOrderReturn): void {
     nft = new Nft(nftId)
   }
   let bids = nft.bids;
-  bids.push(id);
-  nft.bids = bids;
-
+  if(bids==null){
+    nft.bids = [id];
+  }else{
+    bids.push(id);
+    nft.bids = bids;
+  }
   
   nft.save();
 }
@@ -68,12 +71,16 @@ export function handleTokenMetaReturn(event: TokenMetaReturn): void {
     nft.tokenId = event.params.data.tokenId
     nft.tokenURI = contract.tokenURI(event.params.data.tokenId);
     nft.creator = contract.owner();
-    nft.createdAt = event.block.timestamp;
+    // nft.createdAt = event.block.timestamp;
     nft.collection = nftId
     nft.sale = event.params.data.saleId.toString();
     let bids = nft.bids;
-    bids.push('0');
-    nft.bids = bids;
+    if(bids==null){
+      nft.bids = ['0'];
+    }else{
+      bids.push('0');
+      nft.bids = bids;
+    }
     nft.save();
   
 

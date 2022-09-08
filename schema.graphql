@@ -7,12 +7,12 @@ type Nft @entity {
   tokenId: BigInt!
   tokenURI: String!
   creator: Bytes!
-  owner: Bytes!
+  owner: Bytes
   # royalties: Array!
-  createdAt: BigInt!
+  # createdAt: BigInt!
   collection: Collection!
   sale: Sale
-  bids: [Bid!]!
+  bids: [Bid!]
 }
 
 type Collection @entity {

@@ -96,22 +96,21 @@ export class Nft extends Entity {
     this.set("creator", Value.fromBytes(value));
   }
 
-  get owner(): Bytes {
+  get owner(): Bytes | null {
     let value = this.get("owner");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
-  }
-
-  get createdAt(): BigInt {
-    let value = this.get("createdAt");
-    return value!.toBigInt();
-  }
-
-  set createdAt(value: BigInt) {
-    this.set("createdAt", Value.fromBigInt(value));
+  set owner(value: Bytes | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get collection(): string {
@@ -140,13 +139,21 @@ export class Nft extends Entity {
     }
   }
 
-  get bids(): Array<string> {
+  get bids(): Array<string> | null {
     let value = this.get("bids");
-    return value!.toStringArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
   }
 
-  set bids(value: Array<string>) {
-    this.set("bids", Value.fromStringArray(value));
+  set bids(value: Array<string> | null) {
+    if (!value) {
+      this.unset("bids");
+    } else {
+      this.set("bids", Value.fromStringArray(<Array<string>>value));
+    }
   }
 }
 
